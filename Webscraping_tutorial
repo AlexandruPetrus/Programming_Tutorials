@@ -1,0 +1,85 @@
+Web Scraping Tutorial with Python
+Introduction
+Web scraping is the process of extracting data from websites. This tutorial will guide you through the process of web scraping using Python. We'll use the requests library to fetch web pages and BeautifulSoup to parse and extract the desired information.
+
+For this tutorial, we’ll scrape book data from a demo site Books to Scrape, which lists a variety of books along with their details like price, availability, and ratings.
+
+Prerequisites
+Before we begin, ensure you have Python installed on your machine. You’ll also need to install the following Python libraries:
+
+pip install requests
+pip install beautifulsoup4
+Step 1: Import the Required Libraries
+Start by importing the necessary libraries:
+
+import requests
+
+from bs4 import BeautifulSoup
+import pandas as pd
+requests: Used to send HTTP requests to the website.
+BeautifulSoup: Used for parsing HTML and extracting the data.
+pandas: Used to structure and save the scraped data.
+
+Step 2: Fetch the Web Page
+We’ll start by fetching the HTML content of the homepage of the website.
+
+url = "http://books.toscrape.com/"
+response = requests.get(url)
+if response.status_code == 200:
+    print("Successfully fetched the webpage!")
+else:
+    print("Failed to retrieve the webpage.")
+The requests.get() method sends a GET request to the specified URL. If the request is successful, you’ll get a status code of 200.
+
+Step 3: Parse the HTML Content
+Next, we'll parse the HTML content using BeautifulSoup.
+
+soup = BeautifulSoup(response.text, 'html.parser')
+Here, response.text contains the HTML content of the page, and html.parser is the parser used by BeautifulSoup to parse the HTML.
+
+Step 4: Extract the Data
+Let’s extract the data we’re interested in, such as book titles, prices, and availability.
+
+titles = soup.find_all('h3')
+book_titles = [title.text for title in titles]
+Extract Book Prices
+python
+
+prices = soup.find_all('p', class_='price_color')
+book_prices = [price.text for price in prices]
+
+Extract Availability
+
+availability = soup.find_all('p', class_='instock availability')
+book_availability = [stock.text.strip() for stock in availability]
+
+Extract Ratings
+
+ratings = soup.find_all('p', class_='star-rating')
+book_ratings = [rating.get('class')[1] for rating in ratings]
+
+Step 5: Store the Data in a DataFrame
+Now that we’ve extracted the data, let’s store it in a pandas DataFrame.
+
+books_df = pd.DataFrame({
+    'Title': book_titles,
+    'Price': book_prices,
+    'Availability': book_availability,
+    'Rating': book_ratings
+})
+
+print(books_df.head())
+
+This code creates a DataFrame with the columns Title, Price, Availability, and Rating, and displays the first few rows.
+
+Step 6: Save the Data to a CSV File
+Finally, save the DataFrame to a CSV file for future analysis.
+
+books_df.to_csv('books.csv', index=False)
+
+This will save the scraped data in a file named books.csv.
+
+Conclusion
+Congratulations! You’ve just scraped a website and extracted meaningful data using Python. This tutorial covers the basics, but web scraping can get more complex depending on the structure of the website and the data you want to extract. Always ensure you respect the website's robots.txt file and the legal aspects of web scraping.
+
+This tutorial is a great starting point, and you can expand upon it by scraping more complex sites or adding functionality like navigating through multiple pages.
