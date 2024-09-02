@@ -29,8 +29,8 @@ Course 5: Saving data for analysis
 The Classic Web Scraping Example
 We’ll start with a simple web scraping task to give you a feel for the process.
 
-python
-Copier le code
+
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -46,14 +46,11 @@ Course 2 - Fetching Web Pages
 Setting Up Your Environment
 Before starting with web scraping, ensure you have the necessary Python libraries installed.
 
-bash
-Copier le code
 pip install requests beautifulsoup4 pandas
 Fetching Web Pages with Requests
 To scrape data from a website, the first step is to fetch the web page content.
 
-python
-Copier le code
+
 url = 'https://example.com'
 response = requests.get(url)
 page_content = response.text
@@ -63,8 +60,6 @@ Course 3 - Parsing HTML Content
 Parsing with BeautifulSoup
 After fetching the web page, you need to parse the HTML content to extract the required information.
 
-python
-Copier le code
 from bs4 import BeautifulSoup
 
 soup = BeautifulSoup(page_content, 'html.parser')
@@ -73,8 +68,6 @@ This creates a BeautifulSoup object that allows you to navigate and search throu
 Example: Extracting Titles
 Let's extract all the titles from the page using the <h1> tags.
 
-python
-Copier le code
 titles = soup.find_all('h1')
 for title in titles:
     print(title.get_text())
@@ -84,8 +77,6 @@ Course 4 - Extracting and Cleaning Data
 Extracting Hyperlinks
 Web scraping often involves extracting hyperlinks from a page.
 
-python
-Copier le code
 links = soup.find_all('a')
 for link in links:
     print(link.get('href'))
@@ -94,8 +85,6 @@ This example extracts all the hyperlinks from the page.
 Cleaning Extracted Data
 Sometimes, the extracted data needs to be cleaned up before it's useful. Here's an example of cleaning a price value:
 
-python
-Copier le code
 def clean_price(price):
     return float(price.replace('$', '').replace(',', ''))
 This function removes unwanted characters from the price string and converts it to a float.
@@ -104,8 +93,6 @@ Course 5 - Saving Data for Analysis
 Saving Data to a CSV File
 After extracting and cleaning your data, you’ll often want to save it for further analysis. Here’s how you can save your data using pandas.
 
-python
-Copier le code
 import pandas as pd
 
 data = {'Title': titles, 'Link': links}
